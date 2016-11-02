@@ -20,4 +20,6 @@ __copyright__ = 'Copyright 2013 Sam Dobson'
 
 from .main import *
 from .helpers import *
+from PIL import Image
+
 

@@ -83,19 +83,12 @@ def join(tiles):
     """
     im = Image.new('RGB', get_combined_size(tiles), None)
     columns, rows = calc_columns_rows(len(tiles))
-    #for tile in tiles:
-        #im.paste(tile.image, tile.coords)
-    #    im.paste(tile, (0,0))
     
     n = 0
     for row in range(rows):
         for col in range(columns):
             im.paste(tiles[n], (tiles[0].size[0]*col,tiles[0].size[1]*row))
             n += 1
-    #im.paste(tiles[0], (0,0))
-    #im.paste(tiles[1], (tiles[1].size[0],0))
-    #im.paste(tiles[2], (0, tiles[2].size[1]))
-    #im.paste(tiles[3], (tiles[2].size[0], tiles[0].size[1]))
     return im
 
 def validate_image(image, number_tiles):

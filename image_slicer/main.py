@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 '''
 Main functionality of ``image_slicer``.
 '''
@@ -7,6 +8,8 @@ from math import sqrt, ceil, floor
 from PIL import Image
 
 from .helpers import get_basename
+from .helpers import open_images
+from .helpers import get_columns_rows
 
 
 class Tile(object):
@@ -70,7 +73,7 @@ def get_combined_size(tiles):
     """Calculate combined size of tiles."""
     # TODO: Refactor calculating layout to avoid repetition.
     columns, rows = calc_columns_rows(len(tiles))
-    tile_size = tiles[0].image.size
+    tile_size = tiles[0].size
     return (tile_size[0] * columns, tile_size[1] * rows)
 
 def join(tiles):
@@ -80,8 +83,19 @@ def join(tiles):
     """
     im = Image.new('RGB', get_combined_size(tiles), None)
     columns, rows = calc_columns_rows(len(tiles))
-    for tile in tiles:
-        im.paste(tile.image, tile.coords)
+    #for tile in tiles:
+        #im.paste(tile.image, tile.coords)
+    #    im.paste(tile, (0,0))
+    
+    n = 0
+    for row in range(rows):
+        for col in range(columns):
+            im.paste(tiles[n], (tiles[0].size[0]*col,tiles[0].size[1]*row))
+            n += 1
+    #im.paste(tiles[0], (0,0))
+    #im.paste(tiles[1], (tiles[1].size[0],0))
+    #im.paste(tiles[2], (0, tiles[2].size[1]))
+    #im.paste(tiles[3], (tiles[2].size[0], tiles[0].size[1]))
     return im
 
 def validate_image(image, number_tiles):
@@ -160,4 +174,3 @@ def save_tiles(tiles, prefix='', directory=os.getcwd(), format='png'):
                                                   directory=directory,
                                                   format=format))
     return tuple(tiles)
-
